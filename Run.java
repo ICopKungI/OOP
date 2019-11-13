@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import javax.swing.JPanel;
 import java.util.ArrayList;
 import java.util.Random;
@@ -73,24 +74,31 @@ public class Run extends JPanel implements Runnable {
 
     // th.start มาเรียกrun()
     public void run() {
-        // running = true; //สั่งให้เดินเกม
-        CountTime.Count(true);
+        try {
+            // running = true; //สั่งให้เดินเกม
+            CountTime.Count(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+        }
         while (running) {
-            // try {
-            // // System.out.println("OK"); //debug ว่า runThreadไหม
-            // Thread.sleep(10);
-            // } catch (InterruptedException ex) {
-            // Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-            // }
-            tick();
+            try {
+                // try {
+                // // System.out.println("OK"); //debug ว่า runThreadไหม
+                // Thread.sleep(10);
+                // } catch (InterruptedException ex) {
+                // Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+                // }
+                tick();
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
             repaint();
             // System.out.println(CountTime.i);
         }
     }
 
-    public void stop() {
+    public void stop() throws IOException {
         CountTime.Count(false);
-        System.out.println(CountTime.i);
         playerArray.remove(0);
         for (int i = 0; i < 4; i++) {
             int num = 0;
@@ -111,7 +119,7 @@ public class Run extends JPanel implements Runnable {
     }
 
     // ควบคุมการเคลื่อนที่ของวัตถุหน้าจอเกม / กำหนดค่าเริ่มต้น
-    private void tick() {
+    private void tick() throws IOException {
         if (playerArray.size() == 0) {
             p = new Player(x, y, 5);
             playerArray.add(p);
@@ -143,9 +151,7 @@ public class Run extends JPanel implements Runnable {
             int mx = monsterArray.get(i).getX();
             int my = monsterArray.get(i).getY();
             if ((((y - 10) < my) && (my < (y + 10))) && (((x - 10) < mx) && (mx < (x + 10)))) { // ชนที่แท้ทรู by Boy
-                                                                                                // 345
                 System.out.println("Boom!!!!");
-                CountTime.Count(false);
                 stop();
             }
         }
@@ -263,12 +269,25 @@ public class Run extends JPanel implements Runnable {
             g.setFont(new Font("Tahoma", Font.BOLD, 20));
             g.drawString("กด SpaceBar เพื่อเริ่ม", width / 2 - 100, height / 2 + 30);
         } else if (!running && alive) {
+            int i = 0;
+            try {
+                for (String str : CountTime.getrating().split(" ")) {
+                    if (!str.equals("0")) {
+                        g.setColor(Color.RED);
+                        g.setFont(new Font("Tahoma", Font.BOLD, 40));
+                        g.drawString("อันดับที่ " + (i / 50 + 1) + " : " + str + " วินาที\n", width / 2 - 150, height / 2 + i);
+                        i += 50;
+                    }
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
             g.setColor(Color.RED);
             g.setFont(new Font("Tahoma", Font.BOLD, 40));
-            g.drawString("เวลาที่ได้: " + CountTime.i + " วินาที", width / 2 - 80, height / 2);
+            g.drawString("เวลาที่คุณทำได้: " + CountTime.t + " วินาที\n", width / 2 - 150, height / 2 + i);
             g.setColor(Color.black);
             g.setFont(new Font("Tahoma", Font.BOLD, 20));
-            g.drawString("กด SpaceBar เพื่อเริ่มเกมใหม่", width / 2 - 100, height / 2 + 30);
+            g.drawString("กด SpaceBar เพื่อเริ่มเกมใหม่", width / 2 - 100, height / 2 + 30 + i);
 
         } else {
             // for (int i = 0; i < width / 100; i++) {
