@@ -131,7 +131,6 @@ public class Run extends JPanel implements Runnable, ActionListener {
 
         btn1_e.setPreferredSize(new Dimension(100, 100));
         btn1_e.addActionListener(this);
-        
         //หน้าผลคะแนน
         //หน้าวิธีเล่น
 
@@ -150,7 +149,7 @@ public class Run extends JPanel implements Runnable, ActionListener {
         monsterArray = new ArrayList();
         monsterArray2 = new ArrayList();
         addKeyListener(new KeyInner());
-        setFocusable(true); // ทำให้สามารถใช้งานkeyboardได้
+        setFocusable(true); // ทำให้สามารถใช้งานkeyboardได้ - by boy ทำให้ java ตั้งใจฟัง keybord
     }
 
     public void startGame() {
@@ -419,6 +418,7 @@ public class Run extends JPanel implements Runnable, ActionListener {
         if ((e.getSource().equals(btn1_m)) || (e.getSource().equals(btn1_e))) {
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, GAME);
+            requestFocusInWindow();
             startGame();
 
         }
