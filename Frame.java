@@ -6,6 +6,7 @@
 package Project;
 
 import java.awt.GridLayout;
+import java.io.IOException;
 import javax.swing.JFrame;
 
 /**
@@ -14,7 +15,7 @@ import javax.swing.JFrame;
  */
 public class Frame extends JFrame{
 
-    public Frame() {
+    public Frame() throws IOException {
         setTitle("Project Game");
 
         setLayout(new GridLayout(1, 1, 0, 0));
@@ -24,7 +25,7 @@ public class Frame extends JFrame{
         setVisible(true);
     }
 
-    private void start() {
+    private void start() throws IOException {
         Run s = new Run();
         add(s);
         pack();
@@ -32,7 +33,7 @@ public class Frame extends JFrame{
         setContentPane(s.page());
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Frame(); // runJFrame
     }
 
