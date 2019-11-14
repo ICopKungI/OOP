@@ -31,7 +31,7 @@ import javax.swing.JLabel;
  * @author GE
  */
 public class Run extends JPanel implements Runnable, ActionListener {
-
+    
     private Thread th;
     private boolean running = false;// เก็บสถานะการทำงาน
     public static int width = 800;
@@ -55,15 +55,24 @@ public class Run extends JPanel implements Runnable, ActionListener {
     // 0-Right 1-Left 2-Top 3-Down
     private ArrayList<Monster> monsterArray;
     private ArrayList<Monster> monsterArray2;
-
+    
     private JPanel cards;
     //หน้า main
-    private JPanel p_main, p2_m, p3_m;
+    private JPanel p_main, p1_m, p2_m;
     private JButton btn1_m, btn2_m, btn3_m, btn4_m;
     //หน้า end
-    private JPanel p_end, p1_e, p2_e;
-    private JLabel lb;
-    private JButton btn1_e, btn2_e;
+    private JPanel p_end, p_e;
+    private JLabel lb_e;
+    private JButton btn1_e, btn2_e, btn3_e;
+
+    //หน้าวิธีเล่น
+    private JPanel p_sol;
+    private JButton btn_s;
+
+    //หน้าคะแนน
+    private JPanel p_rat, p_r;
+    private JLabel lb_r;
+    private JButton btn_r;
 
     //ชื่อแต่ละหน้าPanal
     final static String MIAN = "MIAN";
@@ -71,78 +80,108 @@ public class Run extends JPanel implements Runnable, ActionListener {
     final static String SOL = "SOL";
     final static String RATING = "RATING";
     final static String END = "END";
-
-    public String text_end() throws IOException {
+    
+    public String text_rat(boolean type) throws IOException {
         String text = "";
         int num = 1;
+        if (CountTime.getrating().equals("ยังไม่มีใครเล่น")) {
+            return CountTime.getrating();
+        }
         for (String str : CountTime.getrating().split(" ")) {
             if (!str.equals("0")) {
                 text += ("อันดับที่ " + num + " : " + str + " วินาที\n");
-                 num++;
+                num++;
             }
         }
-        text += ("เวลาที่คุณทำได้: " + CountTime.t + " วินาที\n");
-        System.out.println(text);
+        if (type) {
+            text += ("เวลาที่คุณทำได้: " + CountTime.t + " วินาที\n");
+        }
         return text;
     }
-
+    
     public JPanel page() throws IOException {
-        cards = new JPanel(new CardLayout());
+        cards = new JPanel(new CardLayout());//panal สลับ page
+
         //หน้า Main
         p_main = new JPanel();
+        p1_m = new JPanel();
         p2_m = new JPanel();
-        p3_m = new JPanel();
         btn1_m = new JButton("เริ่มเกม");
         btn2_m = new JButton("อันดับ");
         btn3_m = new JButton("วิธีเล่น");
         btn4_m = new JButton("ออกจากเกม");
-
+        
         p_main.setLayout(new BorderLayout());
-        p2_m.setLayout(new FlowLayout());
-        p3_m.setLayout(new GridLayout(1, 4));
-
-        p3_m.add(btn1_m);
-        p3_m.add(btn2_m);
-        p3_m.add(btn3_m);
-        p3_m.add(btn4_m);
-        p_main.add(p2_m, BorderLayout.CENTER);
-        p_main.add(p3_m, BorderLayout.SOUTH);
-
+        p1_m.setLayout(new FlowLayout());
+        p2_m.setLayout(new GridLayout(1, 4));
+        
+        p2_m.add(btn1_m);
+        p2_m.add(btn2_m);
+        p2_m.add(btn3_m);
+        p2_m.add(btn4_m);
+        p_main.add(p1_m, BorderLayout.CENTER);
+        p_main.add(p2_m, BorderLayout.SOUTH);
+        
         btn1_m.setPreferredSize(new Dimension(100, 100));
         setSize(800, 800);
         btn1_m.addActionListener(this);
+        btn2_m.addActionListener(this);
+        btn3_m.addActionListener(this);
+        btn4_m.addActionListener(this);
 
         //หน้าตาย
         p_end = new JPanel();
-        p1_e = new JPanel();
-        p2_e = new JPanel();
-        lb = new JLabel();
+        p_e = new JPanel();
+        lb_e = new JLabel();
         btn1_e = new JButton("เล่นอีกครั้ง");
-        btn2_e = new JButton("ออกจากเกม");
-
+        btn2_e = new JButton("ย้อนกลับไปหน้าหลัก");
+        btn3_e = new JButton("ออกจากเกม");
+        
         p_end.setLayout(new BorderLayout());
-        p1_e.setLayout(new GridLayout(1, 2));
-
-        p1_e.add(btn1_e);
-        p1_e.add(btn2_e);
-        p2_e.add(lb);
-        p_end.add(p1_e, BorderLayout.SOUTH);
-        p_end.add(p2_e, BorderLayout.CENTER);
-
+        p_e.setLayout(new GridLayout(1, 3));
+        
+        p_e.add(btn1_e);
+        p_e.add(btn2_e);
+        p_e.add(btn3_e);
+        p_end.add(p_e, BorderLayout.SOUTH);
+        p_end.add(lb_e, BorderLayout.CENTER);
+        
         btn1_e.setPreferredSize(new Dimension(100, 100));
         btn1_e.addActionListener(this);
-        //หน้าผลคะแนน
-        //หน้าวิธีเล่น
+        btn2_e.addActionListener(this);
+        btn3_e.addActionListener(this);
 
+        //หน้าผลคะแนน
+        p_rat = new JPanel();
+        lb_r = new JLabel();
+        btn_r = new JButton("ย้อนกลับ");
+        
+        p_rat.setLayout(new BorderLayout());
+        p_rat.add(btn_r, BorderLayout.SOUTH);
+        p_rat.add(lb_r, BorderLayout.CENTER);
+        
+        btn_r.setPreferredSize(new Dimension(100, 100));
+        btn_r.addActionListener(this);
+
+        //หน้าวิธีเล่น
+        p_sol = new JPanel();
+        btn_s = new JButton("ย้อนกลับ");
+        
+        p_sol.setLayout(new BorderLayout());
+        p_sol.add(btn_s, BorderLayout.SOUTH);
+        
+        btn_s.setPreferredSize(new Dimension(100, 100));
+        btn_s.addActionListener(this);
+        
         cards.add(p_main, MIAN);
-//        cards.add(this, SOL);
-//        cards.add(this, RATING);
+        cards.add(p_sol, SOL);
+        cards.add(p_rat, RATING);
         cards.add(this, GAME);
         cards.add(p_end, END);
         return cards;
-
+        
     }
-
+    
     public Run() {
         setPreferredSize(new Dimension(width, height)); // กำหนกขนาดหน้าจอ
         playerArray = new ArrayList();
@@ -151,7 +190,7 @@ public class Run extends JPanel implements Runnable, ActionListener {
         addKeyListener(new KeyInner());
         setFocusable(true); // ทำให้สามารถใช้งานkeyboardได้ - by boy ทำให้ java ตั้งใจฟัง keybord
     }
-
+    
     public void startGame() {
         pspeedmove = 400000;
         mspeedmove = 500000;
@@ -192,7 +231,7 @@ public class Run extends JPanel implements Runnable, ActionListener {
             // System.out.println(CountTime.i);
         }
     }
-
+    
     public void stop() throws IOException {
         CountTime.Count(false);
         playerArray.remove(0);
@@ -208,7 +247,7 @@ public class Run extends JPanel implements Runnable, ActionListener {
         // alive = false;
         CardLayout cl = (CardLayout) (cards.getLayout());
         cl.show(cards, END);
-        lb.setText(text_end());
+        lb_e.setText(text_rat(true));
         running = false;
         // try {
         // th.join();
@@ -412,24 +451,39 @@ public class Run extends JPanel implements Runnable, ActionListener {
         }
 //        }
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-        if ((e.getSource().equals(btn1_m)) || (e.getSource().equals(btn1_e))) {
+        if ((e.getSource().equals(btn1_m)) || (e.getSource().equals(btn1_e))) {//กดเริ่มเกมใหม่
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, GAME);
             requestFocusInWindow();
             startGame();
-
+        } else if ((e.getSource().equals(btn4_m)) || (e.getSource().equals(btn3_e))) {//กดออกจากเกม
+            System.exit(0);
+        } else if (e.getSource().equals(btn2_m)) {//ไปหน้าคะแนน
+            CardLayout cl = (CardLayout) (cards.getLayout());
+            cl.show(cards, RATING);
+            try {
+                lb_r.setText(text_rat(false));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (e.getSource().equals(btn3_m)) {//ไปหน้าวิธีเล่น
+            CardLayout cl = (CardLayout) (cards.getLayout());
+            cl.show(cards, SOL);
+        } else if ((e.getSource().equals(btn_r)) || (e.getSource().equals(btn_s)) || (e.getSource().equals(btn2_e))) {//ไปหน้าเมนูหลัก
+            CardLayout cl = (CardLayout) (cards.getLayout());
+            cl.show(cards, MIAN);
         }
     }
-
+    
     class KeyInner implements KeyListener {
-
+        
         @Override
         public void keyTyped(KeyEvent ke) {
         }
-
+        
         @Override
         public void keyPressed(KeyEvent ke) {
             int key = ke.getKeyCode();
@@ -466,7 +520,7 @@ public class Run extends JPanel implements Runnable, ActionListener {
                 startGame();
             }
         }
-
+        
         @Override
         public void keyReleased(KeyEvent ke) {
             // int key = ke.getKeyCode();
@@ -478,6 +532,6 @@ public class Run extends JPanel implements Runnable, ActionListener {
             // right = false;
             // }
         }
-
+        
     }
 }
