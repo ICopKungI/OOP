@@ -31,6 +31,7 @@ public class CountTime extends TimerTask {
     public static int ans_sort[] = new int[6];
     public static boolean status = true;
 
+    @Override
     public void run() {
         t++;
         // System.out.println("Timer ran " + ++i);
