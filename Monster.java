@@ -33,11 +33,11 @@ public class Monster extends Canvas {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.yellow);
-        g.fillRect(x * width, y * height, width * 10, height * 10);
-        g.setColor(Color.blue);
-        g.fillRect(x * width + 2, y * height + 2, width * 10 - 4, height * 10 - 4);
-        g.drawImage(img, x, y, this);
+//        g.setColor(Color.yellow);
+//        g.fillRect(x * width, y * height, width * 10, height * 10);
+//        g.setColor(Color.blue);
+//        g.fillRect(x * width + 2, y * height + 2, width * 10 - 4, height * 10 - 4);
+        g.drawImage(img, x*width, y * height, this);
     }
 
     public int getX() {
