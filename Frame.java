@@ -13,7 +13,7 @@ import javax.swing.JFrame;
  *
  * @author GE
  */
-public class Frame extends JFrame{
+public class Frame extends JFrame {
 
     public Frame() throws IOException {
         setTitle("Project Game");

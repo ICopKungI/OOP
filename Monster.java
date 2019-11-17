@@ -21,15 +21,12 @@ public class Monster extends Canvas {
     private int x, y, width, height;
     private BufferedImage img;
 
-    public Monster(int x, int y, int size) {
+    public Monster(int x, int y, int size) throws IOException {
         this.x = x;
         this.y = y;
         this.width = size;
         this.height = size;
-        try {
-            img = ImageIO.read(new File("C:\\Users\\User\\Downloads\\OOP\\image\\evil.gif"));
-        } catch (IOException ex) {
-        }
+        img = ImageIO.read(new File("C:\\Users\\User\\Downloads\\OOP\\image\\evil.gif"));
     }
 
     public void draw(Graphics g) {

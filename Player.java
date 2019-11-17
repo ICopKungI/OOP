@@ -22,15 +22,12 @@ public class Player extends Canvas {
     private int x, y, width, height;
     private BufferedImage img;
 
-    public Player(int x, int y, int size) {
+    public Player(int x, int y, int size) throws IOException {
         this.x = x;
         this.y = y;
         this.width = size;
         this.height = size;
-        try {
-            img = ImageIO.read(new File("C:\\Users\\User\\Downloads\\OOP\\image\\pig01.gif"));
-        } catch (IOException ex) {
-        }
+        img = ImageIO.read(new File("C:\\Users\\User\\Downloads\\OOP\\image\\pig01.gif"));
     }
     public void draw(Graphics g) {
 //        g.setColor(Color.red);
