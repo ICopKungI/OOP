@@ -7,7 +7,6 @@ package Project;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -31,7 +30,6 @@ public class Player extends Canvas {
         try {
             img = ImageIO.read(new File("C:\\Users\\User\\Downloads\\OOP\\image\\pig01.gif"));
         } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
     public void draw(Graphics g) {

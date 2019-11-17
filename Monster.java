@@ -29,7 +29,6 @@ public class Monster extends Canvas {
         try {
             img = ImageIO.read(new File("C:\\Users\\User\\Downloads\\OOP\\image\\evil.gif"));
         } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
 

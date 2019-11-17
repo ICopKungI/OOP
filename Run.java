@@ -275,7 +275,7 @@ public class Run extends JPanel implements Runnable, ActionListener {
     // ควบคุมการเคลื่อนที่ของวัตถุหน้าจอเกม / กำหนดค่าเริ่มต้น
     private void tick() throws IOException {
         if (playerArray.size() == 0) {
-            p = new Player(x, y, 5);
+            p = new Player(x, y, 10);
             playerArray.add(p);
         }
         if (monsterArray.size() == 0) {
@@ -335,11 +335,13 @@ public class Run extends JPanel implements Runnable, ActionListener {
                 y++;
             }
             countp = 0;
-            p = new Player(x, y, 10);
-            playerArray.add(p);
-            if (playerArray.size() > size) {
-                playerArray.remove(0);
-            }
+//            p = new Player(x, y, 10);
+//            playerArray.add(p);
+//            if (playerArray.size() > size) {
+//                playerArray.remove(0);
+//            }
+            playerArray.get(0).setY(y);
+            playerArray.get(0).setX(x);
         }
         // 0-Right 1-Left 2-Top 3-Down
         if (countm > mspeedmove) {
