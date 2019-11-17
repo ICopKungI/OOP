@@ -17,12 +17,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import javax.swing.JPanel;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -80,6 +84,11 @@ public class Run extends JPanel implements Runnable, ActionListener {
     final static String SOL = "SOL";
     final static String RATING = "RATING";
     final static String END = "END";
+    
+    //รูป
+//    JLabel background = new JLabel("",new ImageIcon("C:\\Users\\User\\Downloads\\OOP\\image\\map1.jpg"),JLabel.CENTER);
+    
+    private BufferedImage img;
     
     public String text_rat(boolean type) throws IOException {
         String text = "";
@@ -173,6 +182,8 @@ public class Run extends JPanel implements Runnable, ActionListener {
         btn_s.setPreferredSize(new Dimension(100, 100));
         btn_s.addActionListener(this);
         
+//        add(background);
+//        background.setBounds(0,0,800,800);
         cards.add(p_main, MIAN);
         cards.add(p_sol, SOL);
         cards.add(p_rat, RATING);
@@ -189,6 +200,11 @@ public class Run extends JPanel implements Runnable, ActionListener {
         monsterArray2 = new ArrayList();
         addKeyListener(new KeyInner());
         setFocusable(true); // ทำให้สามารถใช้งานkeyboardได้ - by boy ทำให้ java ตั้งใจฟัง keybord
+        try {
+            img = ImageIO.read(new File("C:\\Users\\User\\Downloads\\OOP\\image\\map1.jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     public void startGame() {
@@ -429,6 +445,7 @@ public class Run extends JPanel implements Runnable, ActionListener {
 //            g.drawString("กด SpaceBar เพื่อเริ่มเกมใหม่", width / 2 - 100, height / 2 + 30 + i);
 //
 //        } else {
+        g.drawImage(img, 0, 0, this);
         if (running && alive) {
 
             // for (int i = 0; i < width / 100; i++) {

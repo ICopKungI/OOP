@@ -5,29 +5,41 @@
  */
 package Project;
 
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author GE
  */
-public class Player {
+public class Player extends Canvas {
 
     private int x, y, width, height;
+    private BufferedImage img;
 
     public Player(int x, int y, int size) {
         this.x = x;
         this.y = y;
         this.width = size;
         this.height = size;
+        try {
+            img = ImageIO.read(new File("C:\\Users\\User\\Downloads\\OOP\\image\\pig01.gif"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
-
     public void draw(Graphics g) {
         g.setColor(Color.red);
         g.fillRect(x * width, y * height, width * 10, height * 10); // กำหนดกรอบplayer
         g.setColor(Color.black);
         g.fillRect(x * width + 2, y * height + 2, width * 10 - 4, height * 10 - 4); // กำหนดplayer
+        g.drawImage(img, x, y, this);
     }
 
     public int getX() {
