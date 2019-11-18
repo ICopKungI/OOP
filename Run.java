@@ -116,7 +116,7 @@ public class Run extends JPanel implements Runnable, ActionListener {
         p_main = new JPanel();
         p1_m = new JPanel();
         p2_m = new JPanel();
-        btn1_m = new JButton("เริ่มเกม");
+        btn1_m = new JButton("");//เริ่มเกม
         btn2_m = new JButton("อันดับ");
         btn3_m = new JButton("วิธีเล่น");
         btn4_m = new JButton("ออกจากเกม");
@@ -124,7 +124,9 @@ public class Run extends JPanel implements Runnable, ActionListener {
         p_main.setLayout(new BorderLayout());
         p1_m.setLayout(new FlowLayout());
         p2_m.setLayout(new GridLayout(1, 4));
-        btn1_m.setIcon(new ImageIcon(ImageIO.read(new File("C:\\Users\\User\\Downloads\\OOP\\image\\112.png")))); //ตั้งรูปที่ปุ่ม
+        btn1_m.setIcon(new ImageIcon(ImageIO.read(new File("C:\\Users\\User\\Downloads\\OOP\\image\\2.png")))); //ตั้งรูปที่ปุ่ม
+        btn1_m.setVerticalTextPosition(JButton.TOP);
+        btn1_m.setHorizontalTextPosition(JButton.CENTER);
 //        btn1_m.setBackground ( Color.WHITE );
 //        btn1_m.setForeground ( Color.BLACK );
 //        btn1_m.setBorder ( BorderFactory.createLineBorder ( Color.BLACK, 2 ) );
