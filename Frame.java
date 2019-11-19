@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 public class Frame extends JFrame {
 
     public Frame() throws IOException {
-        setTitle("Project Game");
+        setTitle("Piggy dash");
 
         setLayout(new GridLayout(1, 1, 0, 0));
         setResizable(false);
