@@ -86,12 +86,12 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     final static String ENTERTEXT = "ENTERTEXT";
 
     //รูป
-    JLabel background = new JLabel("", new ImageIcon(getClass().getResource("/image/map1.jpg")), JLabel.CENTER);
+    JLabel background = new JLabel("", new ImageIcon(getClass().getResource("/image/Main1.jpg")), JLabel.CENTER);
 
     private BufferedImage img;
 
     public String text_rat(boolean type) throws IOException {//แสดงผลการเล่น
-        String text = "<html><div style='text-align: center; color:rgb(0, 183, 255);font-size: 24px;padding-top: 200px;'>";
+        String text = "<html><div style='text-align: center; color:rgb(230, 15, 37);font-size: 24px;padding-top: 200px;'>";
         int num = 1;
         if (CountTime.getrating().equals("ยังไม่มีใครเล่น")) {
             return "<html><div style='text-align: center; color:rgb(0, 183, 255);font-size: 24px;'>" + CountTime.getrating() + "</div></html>";
@@ -190,7 +190,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
 
         p_end.setLayout(new BorderLayout());
         p_e.setLayout(new GridLayout(1, 3));
-        lb_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/map1.jpg"))));
+        lb_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/died.jpg"))));
         lb_e.setHorizontalAlignment(JLabel.CENTER);
         lb_e.setVerticalAlignment(JLabel.CENTER);
         lb_e.setHorizontalTextPosition(JLabel.CENTER);
@@ -214,7 +214,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         p_rat.setLayout(new BorderLayout());
         p_rat.add(btn_r, BorderLayout.SOUTH);
         p_rat.add(lb_r, BorderLayout.CENTER);
-        lb_r.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/map1.jpg"))));
+        lb_r.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/rank.jpg"))));
         lb_r.setHorizontalAlignment(JLabel.CENTER);
         lb_r.setVerticalAlignment(JLabel.CENTER);
         lb_r.setHorizontalTextPosition(JLabel.CENTER);
@@ -250,7 +250,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         p_t1.add(p_t2);
         p_et.add(p_t1, BorderLayout.SOUTH);
         p_et.add(lb_et, BorderLayout.CENTER);
-        lb_et.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/map1.jpg"))));
+        lb_et.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/map2.jpg"))));
         lb_et.setHorizontalAlignment(JLabel.CENTER);
         lb_et.setVerticalAlignment(JLabel.CENTER);
 
@@ -259,8 +259,8 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         btn_et2.setPreferredSize(new Dimension(50, 50));
         btn_et2.addActionListener(this);
 
-//        p_main.add(background); //เพิ่มภาพในหน้า main
-//        background.setBounds(0,0,800,800);
+        p_main.add(background); //เพิ่มภาพในหน้า main
+        background.setBounds(0,0,800,800);
         cards.add(p_main, MIAN);
         cards.add(p_sol, SOL);
         cards.add(p_rat, RATING);
