@@ -190,8 +190,10 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
 
         p_end.setLayout(new BorderLayout());
         p_e.setLayout(new GridLayout(1, 3));
+        lb_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/map1.jpg"))));
         lb_e.setHorizontalAlignment(JLabel.CENTER);
         lb_e.setVerticalAlignment(JLabel.CENTER);
+        lb_r.setHorizontalTextPosition(JLabel.CENTER);
 
         p_e.add(btn1_e);
         p_e.add(btn2_e);
@@ -212,8 +214,10 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         p_rat.setLayout(new BorderLayout());
         p_rat.add(btn_r, BorderLayout.SOUTH);
         p_rat.add(lb_r, BorderLayout.CENTER);
+        lb_r.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/map1.jpg"))));
         lb_r.setHorizontalAlignment(JLabel.CENTER);
         lb_r.setVerticalAlignment(JLabel.CENTER);
+        lb_r.setHorizontalTextPosition(JLabel.CENTER);
 
         btn_r.setPreferredSize(new Dimension(50, 50));
         btn_r.addActionListener(this);
