@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Project;
 
+import static Project.CountTime.data_array;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,7 +15,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.swing.JPanel;
 import java.util.ArrayList;
@@ -28,15 +22,11 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
-/**
- *
- * @author GE
- */
 public class Run extends JPanel implements Runnable, ActionListener, MouseListener {
 
     private Thread th;
@@ -77,9 +67,15 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     private JButton btn_s;
 
     //หน้าคะแนน
-    private JPanel p_rat, p_r;
+    private JPanel p_rat;
     private JLabel lb_r;
     private JButton btn_r;
+
+    //หน้าคะแนน
+    private JPanel p_et, p_t1, p_t2;
+    protected static JTextField txt;
+    private JLabel lb_et;
+    private JButton btn_et1, btn_et2;
 
     //ชื่อแต่ละหน้าPanal
     final static String MIAN = "MIAN";
@@ -87,6 +83,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     final static String SOL = "SOL";
     final static String RATING = "RATING";
     final static String END = "END";
+    final static String ENTERTEXT = "ENTERTEXT";
 
     //รูป
     JLabel background = new JLabel("", new ImageIcon(getClass().getResource("/image/map1.jpg")), JLabel.CENTER);
@@ -97,16 +94,18 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         String text = "<html><div style='text-align: center; color:rgb(0, 183, 255);font-size: 24px;padding-top: 200px;'>";
         int num = 1;
         if (CountTime.getrating().equals("ยังไม่มีใครเล่น")) {
-            return CountTime.getrating();
-        }
-        for (String str : CountTime.getrating().split(" ")) {
-            if (!str.equals("0")) {
-                text += ("อันดับที่ " + num + " : " + str + " วินาที<br><br>");
-                num++;
+            return "<html><div style='text-align: center; color:rgb(0, 183, 255);font-size: 24px;'>" + CountTime.getrating() + "</div></html>";
+        } else {
+            String[] ans = CountTime.getrating().split(" ");
+            for (int i = 1; i < Math.min(10, ans.length); i += 2) {
+                if (!ans[i].equals("0")) {
+                    text += ("อันดับที่ " + num + " : " + ans[i - 1] + " " + ans[i] + " วินาที<br><br>");
+                    num++;
+                }
             }
         }
         if (type) {
-            text += ("เวลาที่คุณทำได้: " + CountTime.t + " วินาที");
+            text += ("เวลาที่คุณ " + txt.getText() + " ทำได้: " + CountTime.t + " วินาที");
         }
         return text + "</div></html>";
     }
@@ -229,6 +228,33 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         btn_s.setPreferredSize(new Dimension(50, 50));
         btn_s.addActionListener(this);
 
+        //หน้าใส่ชื่อ
+        p_et = new JPanel();
+        p_t1 = new JPanel();
+        p_t2 = new JPanel();
+        lb_et = new JLabel();
+        txt = new JTextField();
+        btn_et1 = new JButton("ตกลง");
+        btn_et2 = new JButton("ย้อนกลับ");
+
+        p_et.setLayout(new BorderLayout());
+        p_t1.setLayout(new GridLayout(1, 2));
+        p_t2.setLayout(new GridLayout(1, 2));
+        p_t2.add(btn_et1);
+        p_t2.add(btn_et2);
+        p_t1.add(txt);
+        p_t1.add(p_t2);
+        p_et.add(p_t1, BorderLayout.SOUTH);
+        p_et.add(lb_et, BorderLayout.CENTER);
+        lb_et.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/map1.jpg"))));
+        lb_et.setHorizontalAlignment(JLabel.CENTER);
+        lb_et.setVerticalAlignment(JLabel.CENTER);
+
+        btn_et1.setPreferredSize(new Dimension(50, 50));
+        btn_et1.addActionListener(this);
+        btn_et2.setPreferredSize(new Dimension(50, 50));
+        btn_et2.addActionListener(this);
+
 //        p_main.add(background); //เพิ่มภาพในหน้า main
 //        background.setBounds(0,0,800,800);
         cards.add(p_main, MIAN);
@@ -236,6 +262,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         cards.add(p_rat, RATING);
         cards.add(this, GAME);
         cards.add(p_end, END);
+        cards.add(p_et, ENTERTEXT);
         return cards;
 
     }
@@ -520,7 +547,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if ((e.getSource().equals(btn1_m)) || (e.getSource().equals(btn1_e))) {//กดเริ่มเกมใหม่
+        if ((e.getSource().equals(btn_et1)) || (e.getSource().equals(btn1_e))) {//กดเริ่มเกมใหม่
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, GAME);
             requestFocusInWindow();
@@ -538,9 +565,12 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         } else if (e.getSource().equals(btn3_m)) {//ไปหน้าวิธีเล่น
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, SOL);
-        } else if ((e.getSource().equals(btn_r)) || (e.getSource().equals(btn_s)) || (e.getSource().equals(btn2_e))) {//ไปหน้าเมนูหลัก
+        } else if ((e.getSource().equals(btn_r)) || (e.getSource().equals(btn_s)) || (e.getSource().equals(btn2_e)) || (e.getSource().equals(btn_et2))) {//ไปหน้าเมนูหลัก
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, MIAN);
+        } else if (e.getSource().equals(btn1_m)) {//ไปหน้าใส่ชื่อ
+            CardLayout cl = (CardLayout) (cards.getLayout());
+            cl.show(cards, ENTERTEXT);
         }
     }
 

@@ -1,22 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Project;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-/**
- *
- * @author GE
- */
 public class Player extends Canvas {
 
     private int x, y, width, height;
@@ -37,6 +26,7 @@ public class Player extends Canvas {
         g.drawImage(img, x*width, y*height, this);
     }
 
+    @Override
     public int getX() {
         return x;
     }
@@ -45,6 +35,7 @@ public class Player extends Canvas {
         this.x = x;
     }
 
+    @Override
     public int getY() {
         return y;
     }
@@ -53,6 +44,7 @@ public class Player extends Canvas {
         this.y = y;
     }
 
+    @Override
     public int getWidth() {
         return width;
     }
@@ -61,6 +53,7 @@ public class Player extends Canvas {
         this.width = width;
     }
 
+    @Override
     public int getHeight() {
         return height;
     }

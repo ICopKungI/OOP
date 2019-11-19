@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Project;
 
 import java.io.DataInputStream;
@@ -12,22 +7,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- *
- * @author GE
- */
 public class CountTime extends TimerTask {
 
     public static int t = 0;
     public static Timer timer;
     public static TimerTask task;
     public static String ans;
-    public static String name_array[];
-    public static String time_array[];
+    public static String name_array[] = new String[6];
+    public static String data_array[];
     public static int ans_sort[] = new int[6];
     public static boolean status = true;
 
@@ -44,7 +34,7 @@ public class CountTime extends TimerTask {
             task = new CountTime();
             timer.schedule(task, 1000, 1000);
         } else {
-            saverating();
+            saverating(Run.txt.getText());
             timer.cancel();
         }
     }
@@ -66,34 +56,41 @@ public class CountTime extends TimerTask {
         }
     }
 
-    public static void saverating() throws FileNotFoundException, IOException {
-        getrating();//ทำให้สามารถดึกข้อมูลและบันทึกได่้อย่างต่อเนื่อง
+    public static void saverating(String name) throws FileNotFoundException, IOException {
+        getrating();//ทำให้สามารถดึกข้อมูลและบันทึกได้อย่างต่อเนื่อง
         FileOutputStream fout = new FileOutputStream("rating.dat");
         DataOutputStream dout = new DataOutputStream(fout);
         if (getrating() == null) {//รอบแรก
             ans = "";
             ans_sort[0] = t;
+            name_array[0] = name;
         } else {
-            time_array = getrating().split(" ");
+            int num = 0;
+            data_array = getrating().split(" ");
             ans = "";
-            for (int i = 0; i < Math.min(5, time_array.length); i++) {//ลูปเรียงอันดับตามเวลาที่ทำได้
+            for (int i = 1; i < Math.min(10, data_array.length); i+=2) {//ลูปเรียงอันดับตามเวลาที่ทำได้
                 if (status) {
-                    if (Integer.parseInt(time_array[i]) >= t) {
-                        ans_sort[i] = Integer.parseInt(time_array[i]);
+                    if (Integer.parseInt(data_array[i]) >= t) {
+                        ans_sort[num] = Integer.parseInt(data_array[i]);
+                        name_array[num] = data_array[i-1];
                     } else {
-                        ans_sort[i] = t;
+                        ans_sort[num] = t;
+                        name_array[num] = name;
                         status = false;
                     }
                 } else {
-                    ans_sort[i] = Integer.parseInt(time_array[i - 1]);
+                    ans_sort[num] = Integer.parseInt(data_array[i - 2]);
+                    name_array[num] = data_array[i-3];
                 }
+                num++;
             }
             status = true;
         }
 
         //บันทึกข้อมูลอันดับลงไปในไฟล์ rating.dat
         for (int i = 0; i < 5; i++) {
-            ans += ans_sort[i];
+            ans += name_array[i];
+            ans += " " + ans_sort[i];
             if (i != 4) {
                 ans += " ";
             }
