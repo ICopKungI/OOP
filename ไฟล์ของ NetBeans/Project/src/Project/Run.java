@@ -193,7 +193,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         lb_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/map1.jpg"))));
         lb_e.setHorizontalAlignment(JLabel.CENTER);
         lb_e.setVerticalAlignment(JLabel.CENTER);
-        lb_r.setHorizontalTextPosition(JLabel.CENTER);
+        lb_e.setHorizontalTextPosition(JLabel.CENTER);
 
         p_e.add(btn1_e);
         p_e.add(btn2_e);
