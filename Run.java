@@ -254,9 +254,9 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         btn_s = new JButton("ย้อนกลับ");
 
         p_sol.setLayout(new BorderLayout());
-        p_sol.add(lb_s, BorderLayout.SOUTH);
+        p_sol.add(lb_s, BorderLayout.CENTER);
         p_sol.add(btn_s, BorderLayout.SOUTH);
-//        lb_s.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/.jpg")))); ใส่ภาพด้วย
+        lb_s.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/how2p.jpg"))));
 
         btn_s.setPreferredSize(new Dimension(50, 50));
         btn_s.addActionListener(this);
