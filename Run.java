@@ -85,6 +85,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
 
     //หน้าวิธีเล่น
     private JPanel p_sol;
+    private JLabel lb_s;
     private JButton btn_s;
 
     //หน้าคะแนน
@@ -249,10 +250,13 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
 
         //หน้าวิธีเล่น
         p_sol = new JPanel();
+        lb_s = new JLabel();
         btn_s = new JButton("ย้อนกลับ");
 
         p_sol.setLayout(new BorderLayout());
+        p_sol.add(lb_s, BorderLayout.SOUTH);
         p_sol.add(btn_s, BorderLayout.SOUTH);
+//        lb_s.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/.jpg")))); ใส่ภาพด้วย
 
         btn_s.setPreferredSize(new Dimension(50, 50));
         btn_s.addActionListener(this);
@@ -664,7 +668,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         } else if (e.getSource().equals(btn3_m)) {//ไปหน้าวิธีเล่น
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, SOL);
-        } else if ((e.getSource().equals(btn_r)) || (e.getSource().equals(btn2_e)) || (e.getSource().equals(btn_et2))) {//ไปหน้าเมนูหลัก
+        } else if ((e.getSource().equals(btn_r)) || (e.getSource().equals(btn2_e))) {//ไปหน้าเมนูหลัก ***เล่นเพลง
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, MIAN);
             //เสียงหน้า main menu
@@ -686,7 +690,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         } else if (e.getSource().equals(btn1_m)) {//ไปหน้าใส่ชื่อ
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, ENTERTEXT);
-        } else if (e.getSource().equals(btn_s)) {//จากหน้าวิธีเล่นไปหน้าเมนูหลัก
+        } else if (e.getSource().equals(btn_s) || (e.getSource().equals(btn_et2))) {//จากหน้าวิธีเล่นและหน้ากรอกชื่อไปหน้าเมนูหลัก ***ไม่เล่นเพลง
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, MIAN);
         }
