@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -26,6 +27,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -40,8 +42,18 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     public static int width = 800;
     public static int height = 800;
     private boolean sleep = true;//สถานะโชว์ภาพหรือไม่ตอนรอ 0.5 วิ
-    private InputStream test;
-    private AudioStream testA;
+
+    //เพลง
+    private InputStream F_main;
+    private AudioStream S_main;
+    private InputStream F_button;
+    private AudioStream S_button;
+    private InputStream F_playing;
+    private AudioStream S_playing;
+    private InputStream F_rateing;
+    private AudioStream S_rateing;
+    private InputStream F_dead;
+    private AudioStream S_dead;
     // กำหนดตัวplayer
     private Player p;
     private ArrayList<Player> playerArray;
@@ -189,6 +201,10 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         btn3_m.addActionListener(this);
         btn4_m.addActionListener(this);
 
+        F_main = new FileInputStream(new File(getClass().getResource("/sound/menu.wav").toURI()));
+        S_main = new AudioStream(F_main);
+        AudioPlayer.player.start(S_main);
+
         //หน้าตาย
         p_end = new JPanel();
         p_e = new JPanel();
@@ -276,10 +292,6 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         cards.add(this, GAME);
         cards.add(p_end, END);
         cards.add(p_et, ENTERTEXT);
-
-        test = new FileInputStream(new File(getClass().getResource("/sound/01 STORY.wav").toURI()));
-        testA = new AudioStream(test);
-        AudioPlayer.player.start(testA);
         return cards;
 
     }
@@ -346,6 +358,15 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     }
 
     public void stop() throws IOException {
+        //เสียงตอนตาย
+        try {
+            F_dead = new FileInputStream(new File(getClass().getResource("/sound/over 2.wav").toURI()));
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        S_dead = new AudioStream(F_dead);
+        AudioPlayer.player.start(S_dead);
+        AudioPlayer.player.stop(S_playing);
         CountTime.Count(false);
         playerArray.remove(0);
         for (int i = 0; i < 4; i++) {
@@ -577,17 +598,64 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        //เสียงปุ่ม
+        try {
+            F_button = new FileInputStream(new File(getClass().getResource("/sound/select.wav").toURI()));
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            S_button = new AudioStream(F_button);
+        } catch (IOException ex) {
+            Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        AudioPlayer.player.start(S_button);
+
         if ((e.getSource().equals(btn_et1)) || (e.getSource().equals(btn1_e))) {//กดเริ่มเกมใหม่
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, GAME);
             requestFocusInWindow();
             sleep = true;
             startGame();
+            //เสียงเกม
+            try {
+                F_playing = new FileInputStream(new File(getClass().getResource("/sound/play game.wav").toURI()));
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                S_playing = new AudioStream(F_playing);
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            AudioPlayer.player.start(S_playing);
+            AudioPlayer.player.stop(S_main);
+            AudioPlayer.player.stop(S_dead);
         } else if ((e.getSource().equals(btn4_m)) || (e.getSource().equals(btn3_e))) {//กดออกจากเกม
             System.exit(0);
         } else if (e.getSource().equals(btn2_m)) {//ไปหน้าคะแนน
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, RATING);
+            //เสียงหน้าคะแนน
+            try {
+                F_rateing = new FileInputStream(new File(getClass().getResource("/sound/ranking.wav").toURI()));
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                S_rateing = new AudioStream(F_rateing);
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            AudioPlayer.player.start(S_rateing);
+            AudioPlayer.player.stop(S_main);
             try {
                 lb_r.setText(text_rat(false));
             } catch (IOException ex) {
@@ -596,14 +664,31 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         } else if (e.getSource().equals(btn3_m)) {//ไปหน้าวิธีเล่น
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, SOL);
-        } else if ((e.getSource().equals(btn_r)) || (e.getSource().equals(btn_s)) || (e.getSource().equals(btn2_e)) || (e.getSource().equals(btn_et2))) {//ไปหน้าเมนูหลัก
+        } else if ((e.getSource().equals(btn_r)) || (e.getSource().equals(btn2_e)) || (e.getSource().equals(btn_et2))) {//ไปหน้าเมนูหลัก
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, MIAN);
-            AudioPlayer.player.start(testA);
+            //เสียงหน้า main menu
+            try {
+                F_main = new FileInputStream(new File(getClass().getResource("/sound/menu.wav").toURI()));
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                S_main = new AudioStream(F_main);
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            AudioPlayer.player.start(S_main);
+            AudioPlayer.player.stop(S_dead);
+            AudioPlayer.player.stop(S_rateing);
         } else if (e.getSource().equals(btn1_m)) {//ไปหน้าใส่ชื่อ
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, ENTERTEXT);
-            AudioPlayer.player.stop(testA);
+        } else if (e.getSource().equals(btn_s)) {//จากหน้าวิธีเล่นไปหน้าเมนูหลัก
+            CardLayout cl = (CardLayout) (cards.getLayout());
+            cl.show(cards, MIAN);
         }
     }
 
