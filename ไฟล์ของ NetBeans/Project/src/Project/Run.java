@@ -15,7 +15,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import javax.swing.JPanel;
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,6 +30,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 public class Run extends JPanel implements Runnable, ActionListener, MouseListener {
 
@@ -34,6 +40,8 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     public static int width = 800;
     public static int height = 800;
     private boolean sleep = true;//สถานะโชว์ภาพหรือไม่ตอนรอ 0.5 วิ
+    private InputStream test;
+    private AudioStream testA;
     // กำหนดตัวplayer
     private Player p;
     private ArrayList<Player> playerArray;
@@ -111,7 +119,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         return text + "</div></html>";
     }
 
-    public JPanel page() throws IOException {
+    public JPanel page() throws IOException, URISyntaxException {
         cards = new JPanel(new CardLayout());//panal สลับ page
 
         //หน้า Main
@@ -261,13 +269,17 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         btn_et2.addActionListener(this);
 
         p_main.add(background); //เพิ่มภาพในหน้า main
-        background.setBounds(0,0,800,800);
+        background.setBounds(0, 0, 800, 800);
         cards.add(p_main, MIAN);
         cards.add(p_sol, SOL);
         cards.add(p_rat, RATING);
         cards.add(this, GAME);
         cards.add(p_end, END);
         cards.add(p_et, ENTERTEXT);
+
+        test = new FileInputStream(new File(getClass().getResource("/sound/01 STORY.wav").toURI()));
+        testA = new AudioStream(test);
+        AudioPlayer.player.start(testA);
         return cards;
 
     }
@@ -587,9 +599,11 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         } else if ((e.getSource().equals(btn_r)) || (e.getSource().equals(btn_s)) || (e.getSource().equals(btn2_e)) || (e.getSource().equals(btn_et2))) {//ไปหน้าเมนูหลัก
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, MIAN);
+            AudioPlayer.player.start(testA);
         } else if (e.getSource().equals(btn1_m)) {//ไปหน้าใส่ชื่อ
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, ENTERTEXT);
+            AudioPlayer.player.stop(testA);
         }
     }
 

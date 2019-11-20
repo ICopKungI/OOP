@@ -2,11 +2,12 @@ package Project;
 
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import javax.swing.JFrame;
 
 public class Frame extends JFrame {
 
-    public Frame() throws IOException {
+    public Frame() throws IOException, URISyntaxException {
         setTitle("Piggy dash");
 
         setLayout(new GridLayout(1, 1, 0, 0));
@@ -16,7 +17,7 @@ public class Frame extends JFrame {
         setVisible(true);
     }
 
-    private void start() throws IOException {
+    private void start() throws IOException, URISyntaxException {
         Run s = new Run();
         add(s);
         pack();
@@ -24,7 +25,7 @@ public class Frame extends JFrame {
         setContentPane(s.page());
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         new Frame(); // runJFrame
     }
 
