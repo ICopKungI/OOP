@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class Player extends Canvas {
 
     private int x, y, width, height;
-    private BufferedImage img;
+    private final BufferedImage img;
 
     public Player(int x, int y, int size) throws IOException {
         this.x = x;

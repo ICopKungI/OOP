@@ -33,6 +33,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     private boolean running = false;// เก็บสถานะการทำงาน
     public static int width = 800;
     public static int height = 800;
+    private boolean sleep = true;//สถานะโชว์ภาพหรือไม่ตอนรอ 0.5 วิ
     // กำหนดตัวplayer
     private Player p;
     private ArrayList<Player> playerArray;
@@ -304,6 +305,12 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     @Override
     public void run() {
         try {
+            try {
+                Thread.sleep(500);//รอ 0.5 วิหลังพิมชื่อเสร็จ
+                sleep = false;
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
             // running = true; //สั่งให้เดินเกม
             CountTime.Count(true);
         } catch (IOException ex) {
@@ -526,6 +533,13 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
 //
 //        } else {
         g.drawImage(img, 0, 0, this);
+        try {
+            if (sleep) {
+                g.drawImage(ImageIO.read(getClass().getResource("/image/pig01.gif")), 350, 350, this);//ทำให้มีรูปหมูอยู่ตรงกลางตอนรอ 0.5 วิก่อนเกมจะเริ่มจริงๆ
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (running && alive) {
 
             // for (int i = 0; i < width / 100; i++) {
@@ -555,6 +569,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
             CardLayout cl = (CardLayout) (cards.getLayout());
             cl.show(cards, GAME);
             requestFocusInWindow();
+            sleep = true;
             startGame();
         } else if ((e.getSource().equals(btn4_m)) || (e.getSource().equals(btn3_e))) {//กดออกจากเกม
             System.exit(0);

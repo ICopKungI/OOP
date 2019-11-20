@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 class Monster extends Canvas {
     private int x, y, width, height;
-    private BufferedImage img;
+    private final BufferedImage img;
 
     public Monster(int x, int y, int size) throws IOException {
         this.x = x;
