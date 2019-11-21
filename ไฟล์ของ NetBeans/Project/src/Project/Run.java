@@ -1,9 +1,9 @@
 package Project;
 
-import static Project.CountTime.data_array;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -27,7 +27,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioSystem;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -42,6 +41,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     public static int width = 800;
     public static int height = 800;
     private boolean sleep = true;//สถานะโชว์ภาพหรือไม่ตอนรอ 0.5 วิ
+    Cursor cursor;
 
     //เพลง
     private InputStream F_main;
@@ -139,54 +139,22 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         p_main = new JPanel();
         p1_m = new JPanel();
         p2_m = new JPanel();
-        btn1_m = new JButton("");//เริ่มเกม
-        btn2_m = new JButton("อันดับ");
-        btn3_m = new JButton("วิธีเล่น");
-        btn4_m = new JButton("ออกจากเกม");
+        btn1_m = new JButton();//เริ่มเกม
+        btn2_m = new JButton();//อันดับ
+        btn3_m = new JButton();//วิธีเล่น
+        btn4_m = new JButton();//ออกจากเกม
 
         p_main.setLayout(new BorderLayout());
         p1_m.setLayout(new FlowLayout());
         p2_m.setLayout(new GridLayout(1, 4));
         btn1_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่ม
-        btn1_m.setVerticalTextPosition(JButton.TOP);
-        btn1_m.setHorizontalTextPosition(JButton.CENTER);
-//        btn1_m.setBackground ( Color.WHITE );
-//        btn1_m.setForeground ( Color.BLACK );
-//        btn1_m.setBorder ( BorderFactory.createLineBorder ( Color.BLACK, 2 ) );
-//        btn1_m.addMouseListener(new java.awt.event.MouseAdapter() { // hoverbutton
-//            public void mouseEntered(java.awt.event.MouseEvent evt) {
-//                try {
-//                    btn1_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
-//                } catch (IOException ex) {
-//                    Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//
-//            public void mouseExited(java.awt.event.MouseEvent evt) {
-//                try {
-//                    btn1_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
-//                } catch (IOException ex) {
-//                    Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
-//        btn2_m.addMouseListener(new java.awt.event.MouseAdapter() {
-//            public void mouseEntered(java.awt.event.MouseEvent evt) {
-//                try {
-//                    btn2_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
-//                } catch (IOException ex) {
-//                    Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//
-//            public void mouseExited(java.awt.event.MouseEvent evt) {
-//                try {
-//                    btn2_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
-//                } catch (IOException ex) {
-//                    Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
+        btn2_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่ม
+        btn3_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่ม
+        btn4_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่มช
+        btn1_m.addMouseListener(this);
+        btn2_m.addMouseListener(this);
+        btn3_m.addMouseListener(this);
+        btn4_m.addMouseListener(this);
 
         p2_m.add(btn1_m);
         p2_m.add(btn2_m);
@@ -195,7 +163,10 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         p_main.add(p1_m, BorderLayout.CENTER);
         p_main.add(p2_m, BorderLayout.SOUTH);
 
-        btn1_m.setPreferredSize(new Dimension(50, 50));
+        btn1_m.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
+        btn2_m.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
+        btn3_m.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
+        btn4_m.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
         setSize(800, 800);
         btn1_m.addActionListener(this);
         btn2_m.addActionListener(this);
@@ -210,9 +181,9 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         p_end = new JPanel();
         p_e = new JPanel();
         lb_e = new JLabel();
-        btn1_e = new JButton("เล่นอีกครั้ง");
-        btn2_e = new JButton("ย้อนกลับไปหน้าหลัก");
-        btn3_e = new JButton("ออกจากเกม");
+        btn1_e = new JButton();//เล่นอีกครั้ง
+        btn2_e = new JButton();//ย้อนกลับไปหน้าหลัก
+        btn3_e = new JButton();//ออกจากเกม
 
         p_end.setLayout(new BorderLayout());
         p_e.setLayout(new GridLayout(1, 3));
@@ -220,6 +191,12 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         lb_e.setHorizontalAlignment(JLabel.CENTER);
         lb_e.setVerticalAlignment(JLabel.CENTER);
         lb_e.setHorizontalTextPosition(JLabel.CENTER);
+        btn1_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่ม
+        btn2_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่ม
+        btn3_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่ม
+        btn1_e.addMouseListener(this);
+        btn2_e.addMouseListener(this);
+        btn3_e.addMouseListener(this);
 
         p_e.add(btn1_e);
         p_e.add(btn2_e);
@@ -227,7 +204,9 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         p_end.add(p_e, BorderLayout.SOUTH);
         p_end.add(lb_e, BorderLayout.CENTER);
 
-        btn1_e.setPreferredSize(new Dimension(50, 50));
+        btn1_e.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
+        btn2_e.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
+        btn3_e.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
         btn1_e.addActionListener(this);
         btn2_e.addActionListener(this);
         btn3_e.addActionListener(this);
@@ -235,7 +214,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         //หน้าผลคะแนน
         p_rat = new JPanel();
         lb_r = new JLabel();
-        btn_r = new JButton("ย้อนกลับ");
+        btn_r = new JButton();//ย้อนกลับ
 
         p_rat.setLayout(new BorderLayout());
         p_rat.add(btn_r, BorderLayout.SOUTH);
@@ -244,21 +223,25 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         lb_r.setHorizontalAlignment(JLabel.CENTER);
         lb_r.setVerticalAlignment(JLabel.CENTER);
         lb_r.setHorizontalTextPosition(JLabel.CENTER);
+        btn_r.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่ม
+        btn_r.addMouseListener(this);
 
-        btn_r.setPreferredSize(new Dimension(50, 50));
+        btn_r.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
         btn_r.addActionListener(this);
 
         //หน้าวิธีเล่น
         p_sol = new JPanel();
         lb_s = new JLabel();
-        btn_s = new JButton("ย้อนกลับ");
+        btn_s = new JButton();//ย้อนกลับ
 
         p_sol.setLayout(new BorderLayout());
         p_sol.add(lb_s, BorderLayout.CENTER);
         p_sol.add(btn_s, BorderLayout.SOUTH);
         lb_s.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/how2p.jpg"))));
+        btn_s.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่ม
+        btn_s.addMouseListener(this);
 
-        btn_s.setPreferredSize(new Dimension(50, 50));
+        btn_s.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
         btn_s.addActionListener(this);
 
         //หน้าใส่ชื่อ
@@ -267,8 +250,8 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         p_t2 = new JPanel();
         lb_et = new JLabel();
         txt = new JTextField();
-        btn_et1 = new JButton("ตกลง");
-        btn_et2 = new JButton("ย้อนกลับ");
+        btn_et1 = new JButton();//ตกลง
+        btn_et2 = new JButton();//ย้อนกลับ
 
         p_et.setLayout(new BorderLayout());
         p_t1.setLayout(new GridLayout(1, 2));
@@ -282,6 +265,10 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         lb_et.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/map2.jpg"))));
         lb_et.setHorizontalAlignment(JLabel.CENTER);
         lb_et.setVerticalAlignment(JLabel.CENTER);
+        btn_et1.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่ม
+        btn_et2.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png")))); //ตั้งรูปที่ปุ่ม
+        btn_et1.addMouseListener(this);
+        btn_et2.addMouseListener(this);
 
         btn_et1.setPreferredSize(new Dimension(50, 50));
         btn_et1.addActionListener(this);
@@ -710,12 +697,171 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
 
     @Override
     public void mouseEntered(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //ตั้งรูปที่ปุ่มหน้า main
+        if (me.getSource().equals(btn1_m)) {
+            try {
+                btn1_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn2_m)) {
+            try {
+                btn2_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn3_m)) {
+            try {
+                btn3_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn4_m)) {
+            try {
+                btn4_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        //ตั้งรูปที่ปุ่มหน้า ตาย
+        if (me.getSource().equals(btn1_e)) {
+            try {
+                btn1_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn2_e)) {
+            try {
+                btn2_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn3_e)) {
+            try {
+                btn3_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        //ตั้งรูปที่ปุ่มหน้า อันดับ
+        if (me.getSource().equals(btn_r)) {
+            try {
+                btn_r.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        //ตั้งรูปที่ปุ่มหน้า วิธีเล่น
+        if (me.getSource().equals(btn_s)) {
+            try {
+                btn_s.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        //ตั้งรูปที่ปุ่มหน้า ใส่ชื่อ
+        if (me.getSource().equals(btn_et1)) {
+            try {
+                btn_et1.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn_et2)) {
+            try {
+                btn_et2.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/1.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }
 
     @Override
     public void mouseExited(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //ตั้งรูปที่ปุ่มหน้า main
+        if (me.getSource().equals(btn1_m)) {
+            try {
+                btn1_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn2_m)) {
+            try {
+                btn2_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn3_m)) {
+            try {
+                btn3_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn4_m)) {
+            try {
+                btn4_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        //ตั้งรูปที่ปุ่มหน้า ตาย
+        if (me.getSource().equals(btn1_e)) {
+            try {
+                btn1_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn2_e)) {
+            try {
+                btn2_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn3_e)) {
+            try {
+                btn3_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        //ตั้งรูปที่ปุ่มหน้า อันดับ
+        if (me.getSource().equals(btn_r)) {
+            try {
+                btn_r.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        //ตั้งรูปที่ปุ่มหน้า วิธีเล่น
+        if (me.getSource().equals(btn_s)) {
+            try {
+                btn_s.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        //ตั้งรูปที่ปุ่มหน้า ใส่ชื่อ
+        if (me.getSource().equals(btn_et1)) {
+            try {
+                btn_et1.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }if (me.getSource().equals(btn_et2)) {
+            try {
+                btn_et2.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/2.png"))));
+            } catch (IOException ex) {
+                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     class KeyInner implements KeyListener {
