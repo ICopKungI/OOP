@@ -150,7 +150,11 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         btn1_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/Untitled-1.png")))); //ตั้งรูปที่ปุ่ม
         btn2_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/rank.png")))); //ตั้งรูปที่ปุ่ม
         btn3_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/how.png")))); //ตั้งรูปที่ปุ่ม
-        btn4_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/Q.png")))); //ตั้งรูปที่ปุ่มช
+        btn4_m.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/Q.png")))); //ตั้งรูปที่ปุ่ม
+        btn1_m.setBorderPainted(false);
+        btn2_m.setBorderPainted(false);
+        btn3_m.setBorderPainted(false);
+        btn4_m.setBorderPainted(false);
         btn1_m.addMouseListener(this);
         btn2_m.addMouseListener(this);
         btn3_m.addMouseListener(this);
@@ -194,6 +198,9 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         btn1_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/p1.png")))); //ตั้งรูปที่ปุ่ม
         btn2_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/m1.png")))); //ตั้งรูปที่ปุ่ม
         btn3_e.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/Q1.png")))); //ตั้งรูปที่ปุ่ม
+        btn1_e.setBorderPainted(false);
+        btn2_e.setBorderPainted(false);
+        btn3_e.setBorderPainted(false);
         btn1_e.addMouseListener(this);
         btn2_e.addMouseListener(this);
         btn3_e.addMouseListener(this);
@@ -224,6 +231,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         lb_r.setVerticalAlignment(JLabel.CENTER);
         lb_r.setHorizontalTextPosition(JLabel.CENTER);
         btn_r.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/BB2.png")))); //ตั้งรูปที่ปุ่ม
+        btn_r.setBorderPainted(false);
         btn_r.addMouseListener(this);
 
         btn_r.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
@@ -239,6 +247,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         p_sol.add(btn_s, BorderLayout.SOUTH);
         lb_s.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/how2p.jpg"))));
         btn_s.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/BB2.png")))); //ตั้งรูปที่ปุ่ม
+        btn_s.setBorderPainted(false);
         btn_s.addMouseListener(this);
 
         btn_s.setPreferredSize(new Dimension(50, 50));//ตั้งขนาดปุ่ม
@@ -265,8 +274,10 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         lb_et.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/map2.jpg"))));
         lb_et.setHorizontalAlignment(JLabel.CENTER);
         lb_et.setVerticalAlignment(JLabel.CENTER);
-        btn_et1.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/BB2.png")))); //ตั้งรูปที่ปุ่ม
-        btn_et2.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/BB2.png")))); //ตั้งรูปที่ปุ่ม
+        btn_et1.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/AA.png")))); //ตั้งรูปที่ปุ่ม
+        btn_et2.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/BB_t.png")))); //ตั้งรูปที่ปุ่ม
+        btn_et1.setBorderPainted(false);
+        btn_et2.setBorderPainted(false);
         btn_et1.addMouseListener(this);
         btn_et2.addMouseListener(this);
 
@@ -276,7 +287,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         btn_et2.addActionListener(this);
 
         p_main.add(background); //เพิ่มภาพในหน้า main
-        background.setBounds(0, 0, 800, 800);
+        background.setBounds(0, 0, 820, 820);
         cards.add(p_main, MIAN);
         cards.add(p_sol, SOL);
         cards.add(p_rat, RATING);
@@ -766,13 +777,13 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         //ตั้งรูปที่ปุ่มหน้า ใส่ชื่อ
         if (me.getSource().equals(btn_et1)) {
             try {
-                btn_et1.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/bb.png"))));
+                btn_et1.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/Untitled-7.png"))));
             } catch (IOException ex) {
                 Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
             }
         }if (me.getSource().equals(btn_et2)) {
             try {
-                btn_et2.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/bb.png"))));
+                btn_et2.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/Untitled-6.png"))));
             } catch (IOException ex) {
                 Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -851,13 +862,13 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         //ตั้งรูปที่ปุ่มหน้า ใส่ชื่อ
         if (me.getSource().equals(btn_et1)) {
             try {
-                btn_et1.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/BB2.png"))));
+                btn_et1.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/AA.png"))));
             } catch (IOException ex) {
                 Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
             }
         }if (me.getSource().equals(btn_et2)) {
             try {
-                btn_et2.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/BB2.png"))));
+                btn_et2.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/image/BB_t.png"))));
             } catch (IOException ex) {
                 Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
             }
