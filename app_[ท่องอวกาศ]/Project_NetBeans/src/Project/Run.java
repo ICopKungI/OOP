@@ -3,7 +3,6 @@ package Project;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -41,7 +40,6 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     public static int width = 800;
     public static int height = 800;
     private boolean sleep = true;//สถานะโชว์ภาพหรือไม่ตอนรอ 0.5 วิ
-    Cursor cursor;
 
     //เพลง
     private InputStream File_main;
@@ -114,10 +112,10 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     public String text_rat(boolean type) throws IOException {//แสดงผลการเล่น
         String text = "<html><div style='text-align: center; color:rgb(230, 15, 37);font-size: 24px;padding-top: 200px;'>";
         int num = 1;
-        if (CountTime.getrating().equals("ยังไม่มีใครเล่น")) {
-            return "<html><div style='text-align: center; color:rgb(0, 183, 255);font-size: 24px;'>" + CountTime.getrating() + "</div></html>";
+        if (CountTime.get_rating().equals("ยังไม่มีใครเล่น")) {
+            return "<html><div style='text-align: center; color:rgb(0, 183, 255);font-size: 24px;'>" + CountTime.get_rating() + "</div></html>";
         } else {
-            String[] ans = CountTime.getrating().split(" ");
+            String[] ans = CountTime.get_rating().split(" ");
             for (int i = 1; i < Math.min(10, ans.length); i += 2) {
                 if (!ans[i].equals("0")) {
                     text += ("อันดับที่ " + num + " : " + ans[i - 1] + " " + ans[i] + " วินาที<br><br>");
@@ -126,7 +124,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
             }
         }
         if (type) {
-            text += ("เวลาที่คุณ " + txt.getText() + " ทำได้: " + CountTime.t + " วินาที");
+            text += ("เวลาที่ " + txt.getText() + " ทำได้: " + CountTime.time + " วินาที");
         }
         return text + "</div></html>";
     }
@@ -306,9 +304,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         setFocusable(true); // ทำให้สามารถใช้งานkeyboardได้ - ทำให้ java ตั้งใจฟัง keybord
         try {
             img = ImageIO.read(getClass().getResource("/image/map1.jpg"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        } catch (IOException ex) {}
     }
 
     public void startGame() {
@@ -493,9 +489,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         //เสียงปุ่ม
         try {
             File_button = new FileInputStream(new File(getClass().getResource("/sound/select.wav").toURI()));
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
+        } catch (URISyntaxException | FileNotFoundException ex) {
             Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
@@ -514,9 +508,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
             //เสียงเกม
             try {
                 File_playing = new FileInputStream(new File(getClass().getResource("/sound/play game.wav").toURI()));
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FileNotFoundException ex) {
+            } catch (URISyntaxException | FileNotFoundException ex) {
                 Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
@@ -535,9 +527,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
             //เสียงหน้าคะแนน
             try {
                 File_rateing = new FileInputStream(new File(getClass().getResource("/sound/ranking.wav").toURI()));
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FileNotFoundException ex) {
+            } catch (URISyntaxException | FileNotFoundException ex) {
                 Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
@@ -561,9 +551,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
             //เสียงหน้า main menu
             try {
                 File_main = new FileInputStream(new File(getClass().getResource("/sound/menu.wav").toURI()));
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FileNotFoundException ex) {
+            } catch (URISyntaxException | FileNotFoundException ex) {
                 Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
@@ -584,16 +572,13 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     }
 
     @Override
-    public void mouseClicked(MouseEvent me) {
-    }
+    public void mouseClicked(MouseEvent me) {}
 
     @Override
-    public void mousePressed(MouseEvent me) {
-    }
+    public void mousePressed(MouseEvent me) {}
 
     @Override
-    public void mouseReleased(MouseEvent me) {
-    }
+    public void mouseReleased(MouseEvent me) {}
 
     @Override
     public void mouseEntered(MouseEvent me) {
@@ -780,8 +765,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
     class KeyInner implements KeyListener {
 
         @Override
-        public void keyTyped(KeyEvent ke) {
-        }
+        public void keyTyped(KeyEvent ke) {}
 
         @Override
         public void keyPressed(KeyEvent ke) {
@@ -813,8 +797,7 @@ public class Run extends JPanel implements Runnable, ActionListener, MouseListen
         }
 
         @Override
-        public void keyReleased(KeyEvent ke) {
-        }
+        public void keyReleased(KeyEvent ke) {}
 
     }
 }

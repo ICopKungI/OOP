@@ -12,90 +12,89 @@ import java.util.TimerTask;
 
 public class CountTime extends TimerTask {
 
-    public static int t = 0;
+    public static int time = 0, point = 0;
     public static Timer timer;
     public static TimerTask task;
-    public static String ans;
+    public static String text, data;
     public static String name_array[] = new String[6];
     public static String data_array[];
-    public static int ans_sort[] = new int[6];
-    public static boolean status = true;
+    public static int sort_num[] = new int[6];
+    public static boolean status = true;//เช็คสถานะว่าคนที่เล่นล่าสุดได้เวลามากกว่าคนอื่นไหม
 
     @Override
     public void run() {
-        t++;
+        time++;
     }
 
     public static void Count(boolean run) throws IOException {
         if (run) {
-            t = 0;
+            time = 0;
             timer = new Timer();
             task = new CountTime();
             timer.schedule(task, 1000, 1000);
         } else {
-            saverating(Run.txt.getText());
+            save_rating(Run.txt.getText());
             timer.cancel();
         }
     }
 
-    public static String getrating() throws FileNotFoundException, IOException {//ดึงข้อมูลอันดับจากไฟล์ rating.dat
+    public static String get_rating() throws FileNotFoundException, IOException {//ดึงข้อมูลอันดับจากไฟล์ rating.dat
         File f = new File("rating.dat");
         if (f.exists()) {
             FileInputStream fin = new FileInputStream("rating.dat");
             DataInputStream din = new DataInputStream(fin);
             try {
-                ans = din.readUTF();
+                data = din.readUTF();
             } catch (IOException e) {
             }
             din.close();
             fin.close();
-            return ans;
+            return data;
         } else {
             return "ยังไม่มีใครเล่น";
         }
     }
 
-    public static void saverating(String name) throws FileNotFoundException, IOException {
-        getrating();//ทำให้สามารถดึกข้อมูลและบันทึกได้อย่างต่อเนื่อง
+    public static void save_rating(String name) throws FileNotFoundException, IOException {
         FileOutputStream fout = new FileOutputStream("rating.dat");
         DataOutputStream dout = new DataOutputStream(fout);
-        if (getrating() == null) {//รอบแรก
-            ans = "";
-            ans_sort[0] = t;
+        if (get_rating() == null) {//รอบแรก
+            text = "";
+            sort_num[0] = time;
             name_array[0] = name;
         } else {
-            int num = 0;
-            data_array = getrating().split(" ");
-            ans = "";
+            data_array = get_rating().split(" ");
+            text = "";
             for (int i = 1; i < Math.min(10, data_array.length); i += 2) {//ลูปเรียงอันดับตามเวลาที่ทำได้
                 if (status) {
-                    if (Integer.parseInt(data_array[i]) >= t) {
-                        ans_sort[num] = Integer.parseInt(data_array[i]);
-                        name_array[num] = data_array[i - 1];
+                    if (Integer.parseInt(data_array[i]) >= time) {
+                        sort_num[point] = Integer.parseInt(data_array[i]);
+                        name_array[point] = data_array[i - 1];
                     } else {
-                        ans_sort[num] = t;
-                        name_array[num] = name;
+                        sort_num[point] = time;
+                        name_array[point] = name;
                         status = false;
                     }
                 } else {
-                    ans_sort[num] = Integer.parseInt(data_array[i - 2]);
-                    name_array[num] = data_array[i - 3];
+                    sort_num[point] = Integer.parseInt(data_array[i - 2]);
+                    name_array[point] = data_array[i - 3];
                 }
-                num++;
+                point++;
             }
+            point = 0;
             status = true;
         }
 
         //บันทึกข้อมูลอันดับลงไปในไฟล์ rating.dat
         for (int i = 0; i < 5; i++) {
-            ans += name_array[i];
-            ans += " " + ans_sort[i];
+            text += name_array[i];
+            text += " " + sort_num[i];
             if (i != 4) {
-                ans += " ";
+                text += " ";
             }
         }
-        dout.writeUTF(ans);
-        ans = "";
+        dout.writeUTF(text);
+        text = "";
         dout.close();
         fout.close();
     }
